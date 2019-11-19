@@ -1,11 +1,11 @@
 <div>
 
 
-        Nome: <input type="text" [(ngModel)]="nome"><br><br> <!--Sei que não se usa <br>, mas é enquanto não tem o framework-->
-        Telefone: <input type="text"><br><br>
-        E-mail: <input type="text"><br><br>
+        Nome: <input type="text" [(ngModel)]="usuario.nome"><br><br> <!--Sei que não se usa <br>, mas é enquanto não tem o framework-->
+        Telefone: <input type="text" [(ngModel)]="usuario.telefone"><br><br>
+        E-mail: <input type="text" [(ngModel)]="usuario.email"><br><br>
         Sexo: 
-            <select>
+            <select [(ngModel)]="usuario.sexo">
                 <option>Masculino</option>
                 <option>Feminino</option>
                 <option>Indefinido</option>

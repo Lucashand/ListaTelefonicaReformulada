@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from '../usuario.service';
 
 
 @Component({
@@ -8,15 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CadastrarComponent implements OnInit { 
 
+  usuario: any = {};
 
-  constructor() { }
+  constructor(private usuarioService: UsuarioService) { }
 
   ngOnInit() {
   }
 
   cadastrar(){
-    let nome: any;
-    console.log(nome);
+    this.usuarioService.cadastrar(this.usuario);
   }
 
 }
