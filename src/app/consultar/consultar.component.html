@@ -1,1 +1,23 @@
-<p>consultar works!</p>
+
+<div>
+    <table>
+        <thead>
+            <td>Nome</td>
+            <td>Telefone</td>
+            <td>E-mail</td>
+            <td>Sexo</td>
+        </thead>
+        <tbody>
+            <tr *ngFor="let usuario of listaUsuarios; let i = index">
+                <td>{{usuario.nome}}</td>
+                <td>{{usuario.telefone}}</td>
+                <td>{{usuario.email}}</td>
+                <td>{{usuario.sexo}}</td>
+                <td>
+                    <button type="submit" (click)='editar(usuario, i)'>Editar</button> | 
+                    <button type="submit" (click)='excluir(i)'>Excluir</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
