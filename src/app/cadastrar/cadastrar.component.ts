@@ -25,17 +25,12 @@ export class CadastrarComponent implements OnInit {
     }
   }
 
-  cadastrar(){
+  salvar(){
     if(this.id){
       this.usuarioService.editar(this.usuario, this.id);
     }else{
       this.usuarioService.cadastrar(this.usuario);
     }
-    this.router.navigateByUrl('/consultar');
-  }
-
-  editar(usuarioEdicao: Usuario, id: string){
-    this.usuario = usuarioEdicao;
     this.router.navigateByUrl('/consultar');
   }
 

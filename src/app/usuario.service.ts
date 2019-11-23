@@ -1,58 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from './usuario.model';
-import { ConversaoService } from './conversao.service';
+import { LocalStorageService } from './localStorage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
   
-  constructor(private conversaoService: ConversaoService) {}
-
-  listaUsuarios: any;
-
-  setItem(usuario: Usuario){
-    localStorage.setItem('listaUsuarios', this.conversaoService.conversaoParaString(usuario));
-  }
+  constructor(private localStorageService: LocalStorageService) {}
 
   cadastrar(usuario: Usuario){
-    this.listaUsuarios = this.consultarLista();
-    this.listaUsuarios.push(usuario);
-    this.setItem(this.listaUsuarios);
+    let listaUsuarios = this.localStorageService.getItem('listaUsuarios');
+    listaUsuarios.push(usuario);
+    this.localStorageService.setItem('listaUsuarios', listaUsuarios);
     alert('Cadastro efetuado com sucesso!');
   }
 
   consultarLista(){
-    this.listaUsuarios = localStorage.getItem('listaUsuarios');
-    if(this.listaUsuarios){
-      return this.conversaoService.conversaoParaObjeto(this.listaUsuarios);
-    }else{
-      return new Array;
-    } 
+    return this.localStorageService.getItem('listaUsuarios') || [];
   }
 
   consultarUsuario(id: string){
-    this.listaUsuarios = localStorage.getItem('listaUsuarios');
-    if(this.listaUsuarios){
-      let usuario = this.conversaoService.conversaoParaObjeto(this.listaUsuarios);
-      return usuario[id];
-    }else{
-      return new Array;
-    } 
+    let listaUsuarios = this.localStorageService.getItem('listaUsuarios');
+    return listaUsuarios[id];
   }
 
   excluir(id: string){
-    this.listaUsuarios = this.consultarLista();
-    this.listaUsuarios.splice(id, 1);
-    this.setItem(this.listaUsuarios);
+    let listaUsuarios = this.localStorageService.getItem('listaUsuarios');
+    this.localStorageService.setItem('listaUsuarios', listaUsuarios.splice(id, 1));
     alert('Exclusão efetuada com sucesso!');
-    return this.listaUsuarios;
+    return listaUsuarios;
   }
 
   editar(usuario: Usuario, id: string){
-    this.listaUsuarios = this.consultarLista();
-    this.listaUsuarios.splice(id, 1, usuario);
-    this.setItem(this.listaUsuarios);
+    let listaUsuarios = this.localStorageService.getItem('listaUsuarios');
+    listaUsuarios.splice(id, 1, usuario);
+    this.localStorageService.setItem('listaUsuarios', listaUsuarios);
     alert('Alteração efetuada com sucesso!');
   }
 }
