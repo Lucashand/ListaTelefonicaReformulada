@@ -12,11 +12,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class CadastrarComponent implements OnInit { 
 
-  usuario: any = {};
-  router: Router;
+  usuario = new Usuario;
   id: string;
 
-  constructor(private usuarioService: UsuarioService, private route: ActivatedRoute, http: Router, router: Router) {this.router = router;}
+  constructor(private usuarioService: UsuarioService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');

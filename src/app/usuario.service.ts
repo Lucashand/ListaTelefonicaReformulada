@@ -2,40 +2,52 @@ import { Injectable } from '@angular/core';
 import { Usuario } from './usuario.model';
 import { LocalStorageService } from './localStorage.service';
 
+const chave = 'listaUsuarios';
+
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  
+
   constructor(private localStorageService: LocalStorageService) {}
 
-  cadastrar(usuario: Usuario){
-    let listaUsuarios = this.localStorageService.getItem('listaUsuarios');
+  cadastrar(usuario: Usuario): Usuario{
+    const listaUsuarios = this.localStorageService.getItem(chave);
     listaUsuarios.push(usuario);
-    this.localStorageService.setItem('listaUsuarios', listaUsuarios);
+    this.localStorageService.setItem(chave, listaUsuarios);
     alert('Cadastro efetuado com sucesso!');
+    return listaUsuarios[listaUsuarios.length -1]; // Poderia retornar o "usuario" mas acho que não faz sentido retornar o que estou recebendo.
   }
 
-  consultarLista(){
-    return this.localStorageService.getItem('listaUsuarios') || [];
+  consultarLista(): Usuario{
+    return this.localStorageService.getItem(chave) || [];
   }
 
-  consultarUsuario(id: string){
-    let listaUsuarios = this.localStorageService.getItem('listaUsuarios');
-    return listaUsuarios[id];
+  consultarUsuario(indice: string): Usuario{
+    const listaUsuarios = this.localStorageService.getItem(chave);
+    return listaUsuarios[indice];
   }
 
-  excluir(id: string){
-    let listaUsuarios = this.localStorageService.getItem('listaUsuarios');
-    this.localStorageService.setItem('listaUsuarios', listaUsuarios.splice(id, 1));
+  excluir(indice: string): Usuario{
+    const listaUsuarios = this.localStorageService.getItem(chave);
+    const usuarioExcluido = this.consultarUsuario(indice); // Se eu retornasse o listaUsuarios[indice] teria perdido seu valor.
+    listaUsuarios.splice(indice, 1);
+    this.localStorageService.setItem(chave, listaUsuarios);
     alert('Exclusão efetuada com sucesso!');
-    return listaUsuarios;
+    return usuarioExcluido;
   }
 
-  editar(usuario: Usuario, id: string){
-    let listaUsuarios = this.localStorageService.getItem('listaUsuarios');
-    listaUsuarios.splice(id, 1, usuario);
-    this.localStorageService.setItem('listaUsuarios', listaUsuarios);
+  editar(usuario: Usuario, indice: string): Usuario{
+    const listaUsuarios = this.localStorageService.getItem(chave);
+    listaUsuarios.splice(indice, 1, usuario);
+    this.localStorageService.setItem(chave, listaUsuarios);
     alert('Alteração efetuada com sucesso!');
+    return listaUsuarios[indice]; // Splice acrecenta o objeto no mesmo índice que exclui.
+  }
+
+  resetar(): Usuario{
+    const listaUsuarios = this.consultarLista();
+    this.localStorageService.removeItem(chave);
+    return listaUsuarios;
   }
 }

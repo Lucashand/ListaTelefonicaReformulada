@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../usuario.service';
 import { Usuario } from '../usuario.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-consultar',
@@ -10,20 +10,36 @@ import { Router } from '@angular/router';
 })
 export class ConsultarComponent implements OnInit {
 
-  listaUsuarios: Usuario;
-  router: Router;
+  listaUsuarios = new Usuario;
+  url: string;
 
-  constructor(private usuarioService: UsuarioService, http: Router, router: Router) {this.router = router;}
+  constructor(private usuarioService: UsuarioService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.listaUsuarios = this.usuarioService.consultarLista();
+    this.url = this.route.snapshot.paramMap.get('url');
   }
 
-  excluir(id: string){
-    this.listaUsuarios = this.usuarioService.excluir(id);
+  excluir(indice: string){
+    this.usuarioService.excluir(indice);
+    this.verificarUrl();
   }
 
-  editar(usuario: Usuario, id: string){
-    this.router.navigateByUrl('/cadastrar/'+id);
+  editar(indice: string){
+    this.router.navigateByUrl('/editar/'+indice);
   }
+
+  resetar(){
+    this.usuarioService.resetar();
+    this.verificarUrl();
+  }
+
+  verificarUrl(){
+    if(this.url){
+      this.router.navigateByUrl('/consultar');
+    }else{
+      this.router.navigateByUrl('/consultar/'+1);
+    }
+  }
+
 }

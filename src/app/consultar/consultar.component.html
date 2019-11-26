@@ -1,5 +1,6 @@
 
 <div>
+    <button (click)="resetar()">Resetar</button>
     <table>
         <thead>
             <td>Nome</td>
@@ -14,7 +15,7 @@
                 <td>{{usuario.email}}</td>
                 <td>{{usuario.sexo}}</td>
                 <td>
-                    <button type="submit" (click)='editar(usuario, i)'>Editar</button> | 
+                    <button type="submit" (click)='editar(i)'>Editar</button> | 
                     <button type="submit" (click)='excluir(i)'>Excluir</button>
                 </td>
             </tr>
